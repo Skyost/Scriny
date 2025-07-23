@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="scriny.svg" alt="Scriny" width="120"/>
+  <img src="https://github.com/Skyost/Scriny/raw/master/scriny.svg" alt="Scriny" width="120"/>
 </div>
 
 &nbsp;
@@ -19,7 +19,7 @@
 * Allows custom top-level functions and variables.
 * Easy to use and integrate.
 
-Scriny is already used in two of my projects:
+Scriny is already used in two of my projects :
 - [Mathonaut](https://mathonaut.skyost.eu), for parsing and evaluating mathematical expressions.
 - [Révise tes maths !](https://github.com/Skyost/ReviseTesMaths), for a similar purpose.
 
@@ -36,26 +36,28 @@ All the code examples below can be parsed using `ScrinyParser.parseProgram` and 
 
 #### Mathematical expressions
 
-This evaluates to `9`:
+This evaluates to `9` :
 
 ```
 (2 + 1) * 3
 ```
 
-This evaluates to `8`:
+This evaluates to `8` :
 
 ```
 2^3
 ```
 
-This evaluates to `true`:
+This evaluates to `true` :
 
 ```
 2 == (1 + 1)
 ```
 
 > [!NOTE]
-> To negate a boolean, use the classic `!`. You can also use `!=` instead of `==`. This evaluates to Dart’s `math.e`:
+> To negate a boolean, use the classic `!`. You can also use `!=` instead of `==`.
+
+This evaluates to Dart’s `math.e` :
 
 ```
 exp(1)
@@ -67,7 +69,7 @@ exp(1)
 
 #### Variables
 
-This returns `10`:
+This returns `10` :
 
 ```
 a = 10;
@@ -75,7 +77,7 @@ b = -2;
 return a + b;
 ```
 
-This throws an error:
+This throws an error :
 
 ```
 a = 10;
@@ -84,7 +86,7 @@ delete a;
 return a + b;
 ```
 
-This returns `"Hello world !"`:
+This returns `"Hello world !"` :
 
 ```
 list = ["Hello"];
@@ -94,7 +96,7 @@ return list[0] + " " + map["w"] + " !";
 
 #### Control statements
 
-This evaluates to `1`:
+This evaluates to `1` :
 
 ```
 if (true) {
@@ -104,7 +106,7 @@ if (true) {
 }
 ```
 
-This prints `0` to `9` and returns `null`:
+This prints `0` to `9` and returns `null` :
 
 ```
 for (i in range(10)) {
@@ -116,7 +118,7 @@ for (i in range(10)) {
 > If you don't return a value in your script, then `null` is returned.
 > This is not the case for simple expressions (eg. `1 + 1` returns `2` once evaluated).
 
-This returns `1998`:
+This returns `1998` :
 
 ```
 n = 0;
@@ -129,7 +131,7 @@ while (true) {
 return n;
 ```
 
-This returns `[2, 4]`:
+This returns `[2, 4]` :
 
 ```
 list = [];
