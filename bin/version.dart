@@ -168,7 +168,7 @@ ${fileContent.substring(changeLogHeader.length + 2)}''';
   bool publish = askYNQuestion('Do you want to publish the new version on pub.dev ?');
   if (publish) {
     stdout.writeln('Publishing...');
-    await Process.run('dart', ['pub', 'publish']);
+    await Process.run('dart', ['pub', 'publish', '-f']);
     stdout.writeln('Done.');
   }
 }
