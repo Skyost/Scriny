@@ -1,0 +1,30 @@
+name: scriny
+description: "A tiny scripting language for Dart."
+version: 0.1.0
+homepage: https://github.com/Skyost/Scriny
+repository: https://github.com/Skyost/Scriny
+issue_tracker: https://github.com/Skyost/Scriny/issues
+funding:
+  - https://ko-fi.com/Skyost
+  - https://paypal.me/Skyost
+
+environment:
+  sdk: ^3.8.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  petitparser: ^6.1.0
+  args: ^2.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  conventional_commit: ^0.6.1
+  dotenv: ^4.2.0
+  http: ^1.4.0
+  pub_semver: ^2.2.0
+  yaml_edit: ^2.2.2
+  intl: ^0.20.2
+  pubspec_parse: ^1.5.0
