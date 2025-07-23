@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Skyost/Scriny/raw/master/scriny.svg" alt="Scriny" width="120"/>
+  <img src="https://github.com/Skyost/Scriny/raw/main/scriny.svg" alt="Scriny" width="120"/>
 </div>
 
 &nbsp;
