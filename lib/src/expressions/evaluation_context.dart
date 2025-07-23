@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:scriny/src/expressions/functions/functions.dart';
+import 'package:scriny/src/parser.dart';
 import 'package:scriny/src/utils/copy.dart';
 
 /// Allows to hold variables and functions for evaluations.
@@ -44,23 +45,33 @@ class EvaluationContext {
   EvaluationContext({
     Map<String, Object?> variables = defaultVariables,
     List<EvaluableFunction> functions = defaultFunctions,
-  }) : this._(
-         variables: Map.of(variables),
-         functions: functions.toMap(),
+  }) : _variables = Map.of(variables),
+       _functions = functions.toMap(),
+       assert(
+         [
+           for (String identifier in variables.keys)
+             if (!ScrinyParser.isValidIdentifier(identifier)) identifier,
+         ].isEmpty,
+         'Invalid identifier in variables.',
+       ),
+       assert(
+         [
+           for (EvaluableFunction function in functions)
+             if (!ScrinyParser.isValidIdentifier(function.identifier)) function.identifier,
+         ].isEmpty,
+         'Invalid identifier in functions.',
        );
-
-  /// Creates a new evaluation context instance.
-  EvaluationContext._({
-    required Map<String, Object?> variables,
-    required Map<String, EvaluableFunction> functions,
-  }) : _variables = variables,
-       _functions = functions;
 
   /// Returns a variable value.
   Object? getVariableValue(String identifier) => _copyObject(_variables[identifier]);
 
   /// Sets a variable value.
-  Object? setVariableValue(String identifier, Object? value) => _variables[identifier] = _copyObject(value);
+  Object? setVariableValue(String identifier, Object? value) {
+    if (!ScrinyParser.isValidIdentifier(identifier)) {
+      throw ArgumentError('Invalid identifier : $identifier.');
+    }
+    return _variables[identifier] = _copyObject(value);
+  }
 
   /// Checks if the context has the corresponding variable.
   bool hasVariable(String identifier) => _variables.containsKey(identifier);
@@ -75,7 +86,12 @@ class EvaluationContext {
   EvaluableFunction? getFunctionByIdentifier(String identifier) => _functions[identifier];
 
   /// Declares a new function.
-  void declareFunction(EvaluableFunction function) => _functions[function.identifier] = function;
+  void declareFunction(EvaluableFunction function) {
+    if (!ScrinyParser.isValidIdentifier(function.identifier)) {
+      throw ArgumentError('Invalid identifier : ${function.identifier}.');
+    }
+    _functions[function.identifier] = function;
+  }
 
   /// Checks if the context has the corresponding function.
   bool hasFunction(String identifier) => _functions.containsKey(identifier);

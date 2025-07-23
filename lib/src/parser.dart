@@ -21,6 +21,9 @@ class ScrinyParser {
     IfStatement.elseKeyword,
   };
 
+  /// Checks if an identifier is valid.
+  static bool isValidIdentifier(String identifier) => _identifierLiteral.accept(identifier);
+
   /// Parses an expression from a string.
   static Expression parseExpression(String expression) => _expressionParser.end().parse(expression).value;
 
