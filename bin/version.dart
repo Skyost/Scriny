@@ -71,7 +71,7 @@ Future<void> main() async {
   if (input != 'Y') {
     newVersion = Version.parse(input);
   }
-  String defaultIgnoredScopes = 'docs,version,deps';
+  String defaultIgnoredScopes = 'docs,version,deps,tests';
   stdout.write('Enter a comma separated list of scopes to ignore (default is "$defaultIgnoredScopes") or "Y" to continue. ');
   input = stdin.readLineSync(encoding: utf8)?.toUpperCase() ?? 'Y';
   if (input == 'Y') {
