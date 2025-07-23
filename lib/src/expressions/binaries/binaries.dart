@@ -1,3 +1,4 @@
+export 'binary.dart';
 export 'has.dart';
 export 'logicals/and.dart';
 export 'logicals/or.dart';
