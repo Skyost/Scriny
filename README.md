@@ -9,7 +9,7 @@
 [![Pub Likes](https://img.shields.io/pub/likes/scriny?style=flat-square)](https://pub.dev/packages/scriny/score)
 [![Pub Popularity](https://img.shields.io/pub/popularity/scriny?style=flat-square)](https://pub.dev/packages/scriny/score)
 [![Pub Points](https://img.shields.io/pub/points/scriny?style=flat-square)](https://pub.dev/packages/scriny/score)
-[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg)](#License)
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](#License)
 
 ## Features
 
@@ -31,7 +31,8 @@ Add Scriny to your project by following the instructions [here](https://pub.dev/
 
 ### Code
 
-All the code examples below can be parsed using `ScrinyParser.parseProgram`.
+All the code examples below can be parsed using `ScrinyParser.parseProgram` and executed using
+`run()`.
 
 #### Mathematical expressions
 
@@ -53,20 +54,20 @@ This evaluates to `true`:
 2 == (1 + 1)
 ```
 
-Note: To negate a boolean, use the classic `!`. You can also use `!=` instead of `==`.
-
-This evaluates to Dart’s `math.e`:
+> [!NOTE]
+> To negate a boolean, use the classic `!`. You can also use `!=` instead of `==`. This evaluates to Dart’s `math.e`:
 
 ```
 exp(1)
 ```
 
-Note: You can find all available built-in functions [here](https://github.com/Skyost/Scriny/blob/main/lib/src/expressions/functions/).
-We'll see how to add custom functions later.
+> [!NOTE]
+> You can find all available built-in functions [here](https://github.com/Skyost/Scriny/blob/main/lib/src/expressions/functions/).
+> We'll see how to add custom functions later.
 
 #### Variables
 
-This evaluates to `10`:
+This returns `10`:
 
 ```
 a = 10;
@@ -83,7 +84,7 @@ delete a;
 return a + b;
 ```
 
-This evaluates to `"Hello world !"`:
+This returns `"Hello world !"`:
 
 ```
 list = ["Hello"];
@@ -110,6 +111,10 @@ for (i in range(10)) {
   print(i);
 }
 ```
+
+> [!NOTE]
+> If you don't return a value in your script, then `null` is returned.
+> This is not the case for simple expressions (eg. `1 + 1` returns `2` once evaluated).
 
 This returns `1998`:
 
@@ -141,13 +146,13 @@ Check out the example on [pub.dev](https://pub.dev/packages/Scriny/example).
 
 ### Interpreter
 
-Scriny comes with a built-in interpreter! If you have a Scriny script file, you can run it with:
+Scriny comes with a built-in interpreter! If you have a Scriny script file, you can run it with :
 
 ```bash
 dart run scriny:run --file=<path>
 ```
 
-If your script consists of a single line, you can run it with:
+If your script consists of a single line, you can run it with :
 
 ```bash
 dart run scriny:run --code="<your_code>"
@@ -159,7 +164,7 @@ This project is licensed under the [MIT License](https://github.com/Skyost/Scrin
 
 ## Contributions
 
-There are many ways you can contribute to this project:
+There are many ways you can contribute to this project :
 
 * [Fork it](https://github.com/Skyost/Scriny/fork) on GitHub.
 * [Submit an issue](https://github.com/Skyost/Scriny/issues/new/choose) for a feature request or bug report.
