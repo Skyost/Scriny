@@ -3,7 +3,7 @@ import 'package:scriny/src/expressions/binaries/operations/multiplication.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents a modulus expression.
-class ModulusExpression extends BinaryExpression {
+class ModulusExpression extends AssociativeBinaryExpression {
   /// The modulus symbol.
   static const String modulus = '%';
 

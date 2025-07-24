@@ -3,7 +3,7 @@ import 'package:scriny/src/expressions/binaries/operations/addition.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an subtraction expression.
-class SubtractionExpression extends BinaryExpression {
+class SubtractionExpression extends AssociativeBinaryExpression {
   /// The minus symbol.
   static const String minus = '-';
 
@@ -14,6 +14,9 @@ class SubtractionExpression extends BinaryExpression {
   }) : super(
          operator: minus,
        );
+
+  @override
+  bool get isMathematicallyRightAssociative => false;
 
   @override
   int get precedence => AdditionExpression.additionPrecedence;

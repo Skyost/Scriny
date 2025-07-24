@@ -2,7 +2,7 @@ import 'package:scriny/src/expressions/binaries/binary.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an or expression.
-class OrExpression extends BinaryExpression {
+class OrExpression extends AssociativeBinaryExpression {
   /// The or symbol.
   static const String or = '||';
 

@@ -4,7 +4,7 @@ import 'package:scriny/src/expressions/binaries/binary.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents a power expression.
-class PowerExpression extends BinaryExpression {
+class PowerExpression extends AssociativeBinaryExpression {
   /// The power symbol.
   static const String power = '^';
 
@@ -20,7 +20,7 @@ class PowerExpression extends BinaryExpression {
        );
 
   @override
-  bool get isLeftAssociative => false;
+  bool get isMathematicallyLeftAssociative => false;
 
   @override
   int get precedence => powerPrecedence;

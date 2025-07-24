@@ -2,7 +2,7 @@ import 'package:scriny/src/expressions/binaries/binary.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an addition expression.
-class AdditionExpression extends BinaryExpression {
+class AdditionExpression extends AssociativeBinaryExpression {
   /// The plus symbol.
   static const String plus = '+';
 

@@ -2,7 +2,7 @@ import 'package:scriny/src/expressions/binaries/binary.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an and expression.
-class AndExpression extends BinaryExpression {
+class AndExpression extends AssociativeBinaryExpression {
   /// The and symbol.
   static const String and = '&&';
 

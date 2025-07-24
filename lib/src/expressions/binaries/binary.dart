@@ -19,30 +19,24 @@ abstract class BinaryExpression extends Expression with HasPrecedence {
     required this.right,
   });
 
-  /// Returns `true` if the operator is right-associative.
-  bool get isLeftAssociative => true;
-
   @override
   String toString() {
     String leftString = left.toString();
     String rightString = right.toString();
 
-    if (left is HasPrecedence) {
-      int leftPrecedence = (left as HasPrecedence).precedence;
-      if (leftPrecedence < precedence || (leftPrecedence == precedence && isLeftAssociative)) {
-        leftString = '($leftString)';
-      }
+    if (_shouldParenthesize(left, isLeft: true)) {
+      leftString = '($leftString)';
     }
 
-    if (right is HasPrecedence) {
-      int rightPrecedence = (right as HasPrecedence).precedence;
-      if (rightPrecedence < precedence || (rightPrecedence == precedence && isLeftAssociative)) {
-        rightString = '($rightString)';
-      }
+    if (_shouldParenthesize(right, isLeft: false)) {
+      rightString = '($rightString)';
     }
 
     return '$leftString $operator $rightString';
   }
+
+  /// Returns `true` if the child should be parenthesized in the [toString] representation.
+  bool _shouldParenthesize(Expression child, {required bool isLeft}) => child is HasPrecedence && child.precedence < precedence;
 
   @override
   bool operator ==(Object other) {
@@ -54,4 +48,58 @@ abstract class BinaryExpression extends Expression with HasPrecedence {
 
   @override
   int get hashCode => Object.hash(left, operator, right);
+}
+
+/// A class for binary expressions that can be mathematically left-associative or right-associative.
+abstract class AssociativeBinaryExpression extends BinaryExpression {
+  /// Creates a new associative binary expression instance.
+  const AssociativeBinaryExpression({
+    required super.left,
+    required super.operator,
+    required super.right,
+  });
+
+  /// Returns `true` if the operator is mathematically left-associative.
+  bool get isMathematicallyLeftAssociative => true;
+
+  /// Returns `true` if the operator is mathematically right-associative.
+  bool get isMathematicallyRightAssociative => true;
+
+  @override
+  String toString() {
+    String leftString = left.toString();
+    String rightString = right.toString();
+
+    if (_shouldParenthesize(left, isLeft: true)) {
+      leftString = '($leftString)';
+    }
+
+    if (_shouldParenthesize(right, isLeft: false)) {
+      rightString = '($rightString)';
+    }
+
+    return '$leftString $operator $rightString';
+  }
+
+  @override
+  bool _shouldParenthesize(Expression child, {required bool isLeft}) {
+    if (child is HasPrecedence) {
+      if (child.precedence < precedence) {
+        return true;
+      }
+
+      if (child.precedence > precedence) {
+        return false;
+      }
+
+      if (isLeft && !isMathematicallyLeftAssociative) {
+        return true;
+      }
+      if (!isLeft && !isMathematicallyRightAssociative) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 }

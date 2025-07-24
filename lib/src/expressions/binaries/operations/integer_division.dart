@@ -3,7 +3,7 @@ import 'package:scriny/src/expressions/binaries/operations/multiplication.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an integer division expression.
-class IntegerDivisionExpression extends BinaryExpression {
+class IntegerDivisionExpression extends AssociativeBinaryExpression {
   /// The quotient symbol.
   static const String quotient = '~/';
 
@@ -14,6 +14,9 @@ class IntegerDivisionExpression extends BinaryExpression {
   }) : super(
          operator: quotient,
        );
+
+  @override
+  bool get isMathematicallyRightAssociative => false;
 
   @override
   int get precedence => MultiplicationExpression.multiplicationPrecedence;

@@ -2,7 +2,7 @@ import 'package:scriny/src/expressions/binaries/binary.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents a multiplication expression.
-class MultiplicationExpression extends BinaryExpression {
+class MultiplicationExpression extends AssociativeBinaryExpression {
   /// The times symbol.
   static const String times = '*';
 
