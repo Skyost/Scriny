@@ -313,7 +313,7 @@ extension VersionUtils on Version {
     return Version(
       major,
       changeLogEntry.hasBreakingChange ? (minor + 1) : minor,
-      changeLogEntry.hasBreakingChange ? patch : (patch + 1),
+      changeLogEntry.hasBreakingChange ? 0 : (patch + 1),
       build: buildNumber == null ? null : (buildNumber + 1).toString(),
     );
   }
