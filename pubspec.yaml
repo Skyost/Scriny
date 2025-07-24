@@ -1,6 +1,6 @@
 name: scriny
 description: "A tiny scripting language for Dart."
-version: 0.1.1
+version: 0.2.1
 homepage: https://github.com/Skyost/Scriny
 repository: https://github.com/Skyost/Scriny
 issue_tracker: https://github.com/Skyost/Scriny/issues
