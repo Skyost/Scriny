@@ -50,10 +50,10 @@ class RandIntFunction extends EvaluableFunction {
   int? get maximumArguments => 3;
 
   @override
-  List<FunctionArgumentType> buildArgumentTypesList(int argumentCount) => [
-        NumberArgumentType(),
-        if (argumentCount >= 2) NumberArgumentType(),
-        if (argumentCount >= 3) ListArgumentType<num>(),
+  List<TypeAcceptor> buildTypeAcceptorList(int argumentCount) => [
+        NumberTypeAcceptor(),
+        if (argumentCount >= 2) NumberTypeAcceptor(),
+        if (argumentCount >= 3) ListTypeAcceptor<num>(),
       ];
 
   @override

@@ -1,4 +1,5 @@
 import 'package:scriny/src/expressions/functions/function.dart';
+import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Represents the length function.
 class LengthFunction extends EvaluableFunction with FixedArgumentCount {
@@ -12,7 +13,7 @@ class LengthFunction extends EvaluableFunction with FixedArgumentCount {
   int get argumentCount => 1;
 
   @override
-  List<FunctionArgumentType> get argumentsTypes => const [AllArgumentType()];
+  List<TypeAcceptor> get argumentsTypes => const [AllTypesAcceptor()];
 
   @override
   int? run(List<Object?> arguments) {

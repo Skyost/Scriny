@@ -3,9 +3,23 @@ import 'dart:math' as math;
 import 'package:scriny/src/expressions/functions/functions.dart';
 import 'package:scriny/src/parser.dart';
 import 'package:scriny/src/utils/copy.dart';
+import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Allows to hold variables and functions for evaluations.
 class EvaluationContext {
+  /// The accepted types.
+  static const List<TypeAcceptor> _acceptedValuesTypes = [
+    BooleanTypeAcceptor(),
+    NumberTypeAcceptor(),
+    StringTypeAcceptor(),
+    ListTypeAcceptor(),
+    MapTypeAcceptor(),
+    NullTypeAcceptor(),
+  ];
+
+  /// Checks if a variable value can be used.
+  static bool isVariableValueValid(Object? value) => _acceptedValuesTypes.any((type) => type.accept(value));
+
   /// The default variables.
   static const Map<String, Object?> defaultVariables = {
     'e': math.e,
@@ -49,10 +63,10 @@ class EvaluationContext {
        _functions = functions.toMap(),
        assert(
          [
-           for (String identifier in variables.keys)
-             if (!ScrinyParser.isValidIdentifier(identifier)) identifier,
+           for (MapEntry<String, Object?> variable in variables.entries)
+             if (!ScrinyParser.isValidIdentifier(variable.key) || !isVariableValueValid(variable.value)) variable.key,
          ].isEmpty,
-         'Invalid identifier in variables.',
+         'Invalid identifier or value used in the variables list.',
        ),
        assert(
          [
@@ -69,6 +83,9 @@ class EvaluationContext {
   Object? setVariableValue(String identifier, Object? value) {
     if (!ScrinyParser.isValidIdentifier(identifier)) {
       throw ArgumentError('Invalid identifier : $identifier.');
+    }
+    if (!isVariableValueValid(value)) {
+      throw ArgumentError('Invalid value : $value.');
     }
     return _variables[identifier] = _copyObject(value);
   }

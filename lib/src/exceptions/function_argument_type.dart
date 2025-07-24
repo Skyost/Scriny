@@ -1,9 +1,9 @@
-import 'package:scriny/src/expressions/functions/function.dart';
+import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Exception thrown when an argument is of the wrong type.
 class FunctionArgumentTypeException implements Exception {
   /// The accepted type.
-  final FunctionArgumentType acceptedType;
+  final TypeAcceptor acceptedType;
 
   /// The type of the argument.
   final Type type;
@@ -15,5 +15,5 @@ class FunctionArgumentTypeException implements Exception {
   );
 
   @override
-  String toString() => 'Wrong argument type : $type. Must be $acceptedType.';
+  String toString() => 'Wrong argument type : $type. Must validate $acceptedType.';
 }

@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:scriny/src/expressions/functions/function.dart';
+import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Represents the squared root function.
 class SqrtFunction extends EvaluableFunction {
@@ -17,7 +18,7 @@ class SqrtFunction extends EvaluableFunction {
   int? get maximumArguments => 1;
 
   @override
-  List<FunctionArgumentType> buildArgumentTypesList(int argumentCount) => const [NumberArgumentType()];
+  List<TypeAcceptor> buildTypeAcceptorList(int argumentCount) => const [NumberTypeAcceptor()];
 
   @override
   num run(List<Object?> arguments) => math.sqrt(arguments.first as num);

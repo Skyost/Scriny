@@ -1,4 +1,5 @@
 import 'package:scriny/src/expressions/functions/function.dart';
+import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Represents the max function.
 class MaxFunction extends EvaluableFunction {
@@ -9,7 +10,7 @@ class MaxFunction extends EvaluableFunction {
       );
 
   @override
-  List<FunctionArgumentType> buildArgumentTypesList(int argumentCount) => List.generate(argumentCount, (_) => NumberArgumentType());
+  List<TypeAcceptor> buildTypeAcceptorList(int argumentCount) => List.generate(argumentCount, (_) => NumberTypeAcceptor());
 
   @override
   num? run(List<Object?> arguments) {

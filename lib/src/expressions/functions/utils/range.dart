@@ -1,4 +1,5 @@
 import 'package:scriny/src/expressions/functions/function.dart';
+import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Represents the range function.
 class RangeFunction extends EvaluableFunction {
@@ -15,10 +16,10 @@ class RangeFunction extends EvaluableFunction {
   int? get maximumArguments => 3;
 
   @override
-  List<FunctionArgumentType> buildArgumentTypesList(int argumentCount) => [
-    NumberArgumentType(),
-    if (argumentCount >= 2) NumberArgumentType(),
-    if (argumentCount >= 3) NumberArgumentType(),
+  List<TypeAcceptor> buildTypeAcceptorList(int argumentCount) => [
+    NumberTypeAcceptor(),
+    if (argumentCount >= 2) NumberTypeAcceptor(),
+    if (argumentCount >= 3) NumberTypeAcceptor(),
   ];
 
   @override

@@ -7,3 +7,4 @@ export 'src/expressions/expressions.dart';
 export 'src/parser.dart';
 export 'src/program.dart';
 export 'src/statements/statements.dart';
+export 'src/utils/type_acceptor.dart';
