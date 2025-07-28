@@ -21,8 +21,7 @@ class DeleteStatement extends Statement {
   RunResult? run(EvaluationContext evaluationContext) {
     if (expression is IdentifierExpression) {
       evaluationContext.removeVariable((expression as IdentifierExpression).identifier);
-    }
-    else if (expression is CollectionAccessExpression) {
+    } else if (expression is CollectionAccessExpression) {
       String identifier = (expression as CollectionAccessExpression).identifier;
       Object? collection = evaluationContext.getVariableValue(identifier);
       Object? key = (expression as CollectionAccessExpression).key.evaluate(evaluationContext);
@@ -33,8 +32,7 @@ class DeleteStatement extends Statement {
           collection.remove(key);
         }
         evaluationContext.setVariableValue(identifier, collection);
-      }
-      else if (collection is Map) {
+      } else if (collection is Map) {
         collection.remove(key);
         evaluationContext.setVariableValue(identifier, collection);
       }

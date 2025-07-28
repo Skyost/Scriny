@@ -31,9 +31,14 @@ class ScrinyParser {
   static List<Statement> parseStatements(String statements) => statementListParser.end().parse(statements).value;
 
   /// Parses an expression or a list of statements from a string and evaluates it.
-  static Program parseProgram(String expressionOrStatement, {EvaluationContext? evaluationContext}) {
+  static Program parseProgram(
+    String expressionOrStatement, {
+    EvaluationContext? evaluationContext,
+  }) {
     evaluationContext ??= EvaluationContext();
-    Result<Expression> parseExpressionResult = _expressionParser.end().parse(expressionOrStatement);
+    Result<Expression> parseExpressionResult = _expressionParser.end().parse(
+      expressionOrStatement,
+    );
     if (parseExpressionResult is Success) {
       return Program(
         statements: [
@@ -50,13 +55,21 @@ class ScrinyParser {
         evaluationContext: evaluationContext,
       );
     }
-    throw Exception('Invalid expression or statement provided.\n---\nExpression parse result is :\n$parseExpressionResult\n---\nProgram parse result is :\n$parseStatementsResult');
+    throw Exception(
+      'Invalid expression or statement provided.\n---\nExpression parse result is :\n$parseExpressionResult\n---\nProgram parse result is :\n$parseStatementsResult',
+    );
   }
 
   /// Parses an expression or a list of statements from a string and evaluates it, if possible.
-  static Program? tryParseProgram(String expressionOrStatement, {EvaluationContext? evaluationContext}) {
+  static Program? tryParseProgram(
+    String expressionOrStatement, {
+    EvaluationContext? evaluationContext,
+  }) {
     try {
-      return parseProgram(expressionOrStatement, evaluationContext: evaluationContext);
+      return parseProgram(
+        expressionOrStatement,
+        evaluationContext: evaluationContext,
+      );
     } catch (ex, stacktrace) {
       printException(ex, stacktrace);
       return null;
@@ -118,11 +131,27 @@ final Parser<Expression> _expressionParser = () {
 
   // Function calls :
   Parser<List<Expression>> functionCall = (char('(').trim() & expression.starSeparated(char(',').trim()).map((list) => list.elements) & char(')').trim()).map((value) => value[1]);
-  builder.primitive((_identifierLiteral & functionCall).map((value) => FunctionCallExpression(identifier: (value[0] as IdentifierExpression).identifier, arguments: value[1])));
+  builder.primitive(
+    (_identifierLiteral & functionCall).map(
+      (value) => FunctionCallExpression(
+        identifier: (value[0] as IdentifierExpression).identifier,
+        arguments: value[1],
+      ),
+    ),
+  );
 
   // Access expressions :
-  Parser<Expression> collectionIndex = (char('[').trim() & expression & char(']').trim()).map((value) => value[1]);
-  builder.primitive((_identifierLiteral & collectionIndex).map((value) => CollectionAccessExpression(identifier: (value[0] as IdentifierExpression).identifier, key: value[1])));
+  Parser<Expression> collectionIndex = (char('[').trim() & expression & char(']').trim()).map(
+    (value) => value[1],
+  );
+  builder.primitive(
+    (_identifierLiteral & collectionIndex).map(
+      (value) => CollectionAccessExpression(
+        identifier: (value[0] as IdentifierExpression).identifier,
+        key: value[1],
+      ),
+    ),
+  );
 
   builder
     ..primitive(nullLiteral)
@@ -314,7 +343,9 @@ final Parser<List<Statement>> statementListParser = () {
   );
 
   // Collection index assign statement :
-  Parser<Expression> collectionIndex = (char('[').trim() & expression & char(']').trim()).map((value) => value[1]);
+  Parser<Expression> collectionIndex = (char('[').trim() & expression & char(']').trim()).map(
+    (value) => value[1],
+  );
   Parser<CollectionIndexAssignStatement> collectionIndexAssignStatement = (_identifierLiteral & collectionIndex & char(AssignStatement.define).trim() & expression).map(
     (value) => CollectionIndexAssignStatement(
       identifier: (value[0] as IdentifierExpression).identifier,
@@ -364,7 +395,9 @@ final Parser<List<Statement>> statementListParser = () {
           );
 
   // Blocks :
-  Parser<List<Statement>> block = (char('{').trim() & statement.star() & char('}').trim()).map((value) => value[1]);
+  Parser<List<Statement>> block = (char('{').trim() & statement.star() & char('}').trim()).map(
+    (value) => value[1],
+  );
   Parser<IfStatement> ifStatement = (string(IfStatement.ifKeyword).trim() & char('(').trim() & expression & char(')').trim() & block & (string(IfStatement.elseKeyword).trim() & block).optional()).map(
     (value) => IfStatement(
       condition: value[2],

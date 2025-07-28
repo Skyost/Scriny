@@ -28,7 +28,11 @@ class CollectionIndexAssignStatement extends AssignStatement {
       if (evaluatedIndex is! int) {
         throw ArgumentError('Index must be an integer.');
       }
-      collection = collection.replaceRange(evaluatedIndex, evaluatedIndex + 1, evaluatedValue.toString());
+      collection = collection.replaceRange(
+        evaluatedIndex,
+        evaluatedIndex + 1,
+        evaluatedValue.toString(),
+      );
       evaluationContext.setVariableValue(identifier, collection);
       return null;
     }

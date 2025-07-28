@@ -20,7 +20,9 @@ class FunctionCallExpression extends Expression {
 
   @override
   Object? evaluate(EvaluationContext evaluationContext) {
-    EvaluableFunction? function = evaluationContext.getFunctionByIdentifier(identifier);
+    EvaluableFunction? function = evaluationContext.getFunctionByIdentifier(
+      identifier,
+    );
     if (function == null) {
       throw UnknownIdentifierException(identifier);
     }

@@ -5,9 +5,9 @@ import 'package:scriny/src/utils/type_acceptor.dart';
 class RangeFunction extends EvaluableFunction {
   /// Creates a range function instance.
   const RangeFunction()
-      : super(
-          identifier: 'range',
-        );
+    : super(
+        identifier: 'range',
+      );
 
   @override
   int get minimumArguments => 1;

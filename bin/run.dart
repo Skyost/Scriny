@@ -46,7 +46,7 @@ void main(List<String> args) {
     }
   }
 
-  if (content  == null) {
+  if (content == null) {
     stderr.writeln('No input provided.');
     exitCode = -1;
     return;

@@ -24,17 +24,29 @@ abstract class EvaluableFunction {
   List<TypeAcceptor> buildTypeAcceptorList(int argumentCount) => const [];
 
   /// Evaluates the current function.
-  Object? evaluateAndRun(List<Expression> arguments, EvaluationContext evaluationContext) {
+  Object? evaluateAndRun(
+    List<Expression> arguments,
+    EvaluationContext evaluationContext,
+  ) {
     if (arguments.length < minimumArguments || (maximumArguments != null && arguments.length > maximumArguments!)) {
-      throw WrongArgumentCountException(minimumArguments, maximumArguments, arguments.length);
+      throw WrongArgumentCountException(
+        minimumArguments,
+        maximumArguments,
+        arguments.length,
+      );
     }
-    List<TypeAcceptor> acceptedArgumentsTypes = buildTypeAcceptorList(arguments.length);
+    List<TypeAcceptor> acceptedArgumentsTypes = buildTypeAcceptorList(
+      arguments.length,
+    );
     List<Object?> evaluatedArguments = [];
     for (int i = 0; i < arguments.length; i++) {
       Object? evaluationResult = arguments[i].evaluate(evaluationContext);
       TypeAcceptor? typeAcceptor = i >= acceptedArgumentsTypes.length ? null : acceptedArgumentsTypes[i];
       if (typeAcceptor != null && !typeAcceptor.accept(evaluationResult)) {
-        throw FunctionArgumentTypeException(typeAcceptor, evaluationResult.runtimeType);
+        throw FunctionArgumentTypeException(
+          typeAcceptor,
+          evaluationResult.runtimeType,
+        );
       }
       evaluatedArguments.add(evaluationResult);
     }
