@@ -1,5 +1,11 @@
 # 📰 Scriny Changelog
 
+## v0.2.2
+Released on Jul 28, 2025.
+
+* **FEAT** : Now supporting Flutter web. ([#3e65dc3](https://github.com/Skyost/Scriny/commit/3e65dc3))
+* **CHORE** : Updated the formatter rules to match pub.dev requirements. ([#91419e0](https://github.com/Skyost/Scriny/commit/91419e0))
+
 ## v0.2.1
 Released on Jul 24, 2025.
 
