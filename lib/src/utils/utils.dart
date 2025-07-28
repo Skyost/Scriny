@@ -1,9 +1,9 @@
-import 'dart:io';
+import 'package:scriny/src/utils/print/print.dart';
 
 /// Prints an exception to the console.
 void printException(Object? exception, [StackTrace? stackTrace]) {
-  stderr.writeln(exception);
-  stderr.writeln(stackTrace ?? StackTrace.current);
+  printToConsole(exception ?? 'An error occurred.');
+  printToConsole(stackTrace ?? StackTrace.current);
 }
 
 /// Compares two maps for element-by-element equality.
