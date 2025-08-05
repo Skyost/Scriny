@@ -1,6 +1,6 @@
 name: scriny
 description: "A tiny scripting language for Dart. Also supports evaluating simple math expressions."
-version: 0.2.2
+version: 0.3.0
 homepage: https://github.com/Skyost/Scriny
 repository: https://github.com/Skyost/Scriny
 issue_tracker: https://github.com/Skyost/Scriny/issues
@@ -21,7 +21,7 @@ dependencies:
 dev_dependencies:
   test: any
   flutter_lints: ^6.0.0
-  release: ^0.1.4
+  release: ^0.1.5
 
 release:
   changelog:

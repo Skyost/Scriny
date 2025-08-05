@@ -1,4 +1,13 @@
-# 📰 Scriny Changelog
+# 📰 Scriny changelog
+
+## v0.3.0
+Released on August 5, 2025.
+
+* **FIX**: Fixed a bug in the `scriny` utility. ([#03866d3](https://github.com/Skyost/Scriny/commit/03866d3))
+* **BREAKING REFACTOR**: Added an `ExpressionRenderer`. ([#0496c27](https://github.com/Skyost/Scriny/commit/0496c27))
+* **BREAKING REFACTOR**: Merged `variables` and `functions` in `EvaluationContext`. ([#7fc916b](https://github.com/Skyost/Scriny/commit/7fc916b))
+* **BREAKING REFACTOR**: Renamed `run` into `scriny`. ([#ab1d46f](https://github.com/Skyost/Scriny/commit/ab1d46f))
+* **REFACTOR**: Removed remaining Flutter dependencies and migrated from `version` to `release`. ([#69a1625](https://github.com/Skyost/Scriny/commit/69a1625))
 
 ## v0.2.2
 Released on Jul 28, 2025.
