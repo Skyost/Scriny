@@ -1,12 +1,12 @@
-import 'package:flutter_test/flutter_test.dart';
 import 'package:scriny/scriny.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('or parse', () {
     test('parses true || false', () {
       expect(
         ScrinyParser.parseExpression('true || false'),
-        OrExpression(
+        const OrExpression(
           left: BooleanLiteral(value: true),
           right: BooleanLiteral(value: false),
         ),
