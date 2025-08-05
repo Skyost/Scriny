@@ -7,7 +7,6 @@
 **Scriny** is a tiny scripting language for Dart (it's actually the concatenation of "script" and "tiny").
 
 [![Pub Likes](https://img.shields.io/pub/likes/scriny?style=flat-square)](https://pub.dev/packages/scriny/score)
-[![Pub Popularity](https://img.shields.io/pub/popularity/scriny?style=flat-square)](https://pub.dev/packages/scriny/score)
 [![Pub Points](https://img.shields.io/pub/points/scriny?style=flat-square)](https://pub.dev/packages/scriny/score)
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](#License)
 
