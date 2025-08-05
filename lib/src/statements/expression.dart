@@ -20,9 +20,6 @@ class ExpressionStatement extends Statement {
   }
 
   @override
-  String toString() => '$expression;';
-
-  @override
   bool operator ==(Object other) {
     if (other is! ExpressionStatement) {
       return super == other;
