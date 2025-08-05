@@ -151,13 +151,13 @@ Check out the example on [pub.dev](https://pub.dev/packages/Scriny/example).
 Scriny comes with a built-in interpreter! If you have a Scriny script file, you can run it with :
 
 ```bash
-dart run scriny:run --file=<path>
+dart run scriny --file=<path>
 ```
 
 If your script consists of a single line, you can run it with :
 
 ```bash
-dart run scriny:run --code="<your_code>"
+dart run scriny --code="<your_code>"
 ```
 
 ## License
