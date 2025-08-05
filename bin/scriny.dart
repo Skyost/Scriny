@@ -36,7 +36,7 @@ void main(List<String> args) {
     return;
   }
 
-  String? content = results.option('content');
+  String? content = results.option('string');
   if (results.option('file') != null) {
     File file = File(results.option('file')!);
     if (file.existsSync()) {
