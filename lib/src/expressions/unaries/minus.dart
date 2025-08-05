@@ -6,18 +6,12 @@ class MinusExpression extends UnaryExpression {
   /// The minus symbol.
   static const String minus = '-';
 
-  /// The unary minus precedence.
-  static const int unaryMinusPrecedence = 8;
-
   /// Creates a new minus expression instance.
   const MinusExpression({
     required super.operand,
   }) : super(
          operator: minus,
        );
-
-  @override
-  int get precedence => unaryMinusPrecedence;
 
   @override
   num evaluate(EvaluationContext evaluationContext) {

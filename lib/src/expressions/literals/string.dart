@@ -6,7 +6,4 @@ class StringLiteral extends Literal<String> {
   const StringLiteral({
     required super.value,
   });
-
-  @override
-  String toString() => '"$value"';
 }

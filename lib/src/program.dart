@@ -1,6 +1,7 @@
 import 'package:scriny/src/expressions/evaluation_context.dart';
 import 'package:scriny/src/parser.dart';
-import 'package:scriny/src/statements/control/keywords/return.dart';
+import 'package:scriny/src/renderer/statement.dart';
+import 'package:scriny/src/statements/controls/keywords/return.dart';
 import 'package:scriny/src/statements/statement.dart';
 
 /// Represents a runnable program.
@@ -33,13 +34,9 @@ class Program {
   }
 
   @override
-  String toString() {
-    String result = '';
-    for (Statement statement in statements) {
-      result += '$statement\n';
-    }
-    return result;
-  }
+  String toString({
+    StatementRenderer renderer = const DefaultStatementRenderer(),
+  }) => renderer.renderBlock(statements);
 }
 
 /// Allows to run the list of statements.

@@ -1,9 +1,9 @@
 import 'package:scriny/src/expressions/binaries/binary.dart';
-import 'package:scriny/src/expressions/binaries/relationals/equal.dart';
+import 'package:scriny/src/expressions/binaries/relationals/group.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an inferior expression.
-class InferiorExpression extends BinaryExpression {
+class InferiorExpression extends BinaryExpression with InRelationalGroup {
   /// The inferior symbol.
   static const String inferior = '<';
 
@@ -14,9 +14,6 @@ class InferiorExpression extends BinaryExpression {
   }) : super(
          operator: inferior,
        );
-
-  @override
-  int get precedence => EqualExpression.equalPrecedence;
 
   @override
   bool evaluate(EvaluationContext evaluationContext) {

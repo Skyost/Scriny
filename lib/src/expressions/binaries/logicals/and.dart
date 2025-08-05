@@ -1,13 +1,11 @@
 import 'package:scriny/src/expressions/binaries/binary.dart';
+import 'package:scriny/src/expressions/binaries/logicals/group.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an and expression.
-class AndExpression extends AssociativeBinaryExpression {
+class AndExpression extends BinaryExpression with InLogicalGroup {
   /// The and symbol.
   static const String and = '&&';
-
-  /// The and precedence.
-  static const int andPrecedence = 2;
 
   /// Creates a new and expression instance.
   const AndExpression({
@@ -16,9 +14,6 @@ class AndExpression extends AssociativeBinaryExpression {
   }) : super(
          operator: and,
        );
-
-  @override
-  int get precedence => andPrecedence;
 
   @override
   bool evaluate(EvaluationContext evaluationContext) {

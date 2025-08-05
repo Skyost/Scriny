@@ -19,7 +19,7 @@ class MapLiteral extends Literal<Map> {
     if (other is! MapLiteral) {
       return super == other;
     }
-    return identical(this, other) || mapEquals(value, other.value);
+    return identical(this, other) || equalsDeep(value, other.value);
   }
 
   @override

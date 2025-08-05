@@ -1,13 +1,11 @@
 import 'package:scriny/src/expressions/binaries/binary.dart';
+import 'package:scriny/src/expressions/binaries/logicals/group.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents an or expression.
-class OrExpression extends AssociativeBinaryExpression {
+class OrExpression extends BinaryExpression with InLogicalGroup {
   /// The or symbol.
   static const String or = '||';
-
-  /// The or precedence.
-  static const int orPrecedence = 1;
 
   /// Creates a new or expression instance.
   const OrExpression({
@@ -16,9 +14,6 @@ class OrExpression extends AssociativeBinaryExpression {
   }) : super(
          operator: or,
        );
-
-  @override
-  int get precedence => orPrecedence;
 
   @override
   bool evaluate(EvaluationContext evaluationContext) {

@@ -19,7 +19,7 @@ class ListLiteral extends Literal<List> {
     if (other is! ListLiteral) {
       return super == other;
     }
-    return identical(this, other) || listEquals(value, other.value);
+    return identical(this, other) || equalsDeep(value, other.value);
   }
 
   @override

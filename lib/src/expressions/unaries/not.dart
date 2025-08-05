@@ -1,5 +1,4 @@
 import 'package:scriny/src/expressions/evaluation_context.dart';
-import 'package:scriny/src/expressions/unaries/minus.dart';
 import 'package:scriny/src/expressions/unaries/unary.dart';
 
 /// Allows takes the opposite value of a boolean expression.
@@ -13,9 +12,6 @@ class NotExpression extends UnaryExpression {
   }) : super(
          operator: not,
        );
-
-  @override
-  int get precedence => MinusExpression.unaryMinusPrecedence;
 
   @override
   bool evaluate(EvaluationContext evaluationContext) {

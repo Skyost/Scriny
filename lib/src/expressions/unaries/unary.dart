@@ -1,8 +1,7 @@
 import 'package:scriny/src/expressions/expression.dart';
-import 'package:scriny/src/expressions/precedence.dart';
 
 /// An unary expression that takes one operand and one operator.
-abstract class UnaryExpression extends Expression with HasPrecedence {
+abstract class UnaryExpression extends Expression {
   /// The operator of the expression.
   final String operator;
 
@@ -14,15 +13,6 @@ abstract class UnaryExpression extends Expression with HasPrecedence {
     required this.operator,
     required this.operand,
   });
-
-  @override
-  String toString() {
-    String operandString = operand.toString();
-    if (operand is HasPrecedence && (operand as HasPrecedence).precedence < precedence) {
-      operandString = '($operandString)';
-    }
-    return '$operator$operandString';
-  }
 
   @override
   bool operator ==(Object other) {

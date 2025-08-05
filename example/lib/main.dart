@@ -22,8 +22,8 @@ if (c == 3) {
       ...EvaluationContext.defaultFunctions,
       RandIntFunction(),
     ],
-    variables: {
-      ...EvaluationContext.defaultVariables,
+    constants: {
+      ...EvaluationContext.defaultConstants,
       'min': 0,
       'max': 10,
       'excludes': [0, 2, 4, 6, 8, 10],

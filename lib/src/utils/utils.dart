@@ -6,9 +6,20 @@ void printException(Object? exception, [StackTrace? stackTrace]) {
   printToConsole(stackTrace ?? StackTrace.current);
 }
 
+/// Checks if two objects are equal.
+bool equalsDeep(Object? a, Object? b) {
+  if (a is Map && b is Map) {
+    return _mapEquals(a, b);
+  }
+  if (a is List && b is List) {
+    return _listEquals(a, b);
+  }
+  return a == b;
+}
+
 /// Compares two maps for element-by-element equality.
 /// From `flutter/foundation.dart`.
-bool mapEquals<T, U>(Map<T, U>? a, Map<T, U>? b) {
+bool _mapEquals<T, U>(Map<T, U>? a, Map<T, U>? b) {
   if (a == null) {
     return b == null;
   }
@@ -19,7 +30,7 @@ bool mapEquals<T, U>(Map<T, U>? a, Map<T, U>? b) {
     return true;
   }
   for (final T key in a.keys) {
-    if (!b.containsKey(key) || b[key] != a[key]) {
+    if (!b.containsKey(key) || !equalsDeep(b[key], a[key])) {
       return false;
     }
   }
@@ -28,7 +39,7 @@ bool mapEquals<T, U>(Map<T, U>? a, Map<T, U>? b) {
 
 /// Compares two lists for element-by-element equality.
 /// From `flutter/foundation.dart`.
-bool listEquals<T>(List<T>? a, List<T>? b) {
+bool _listEquals<T>(List<T>? a, List<T>? b) {
   if (a == null) {
     return b == null;
   }
@@ -39,7 +50,7 @@ bool listEquals<T>(List<T>? a, List<T>? b) {
     return true;
   }
   for (int index = 0; index < a.length; index += 1) {
-    if (a[index] != b[index]) {
+    if (!equalsDeep(a[index], b[index])) {
       return false;
     }
   }

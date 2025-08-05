@@ -1,5 +1,6 @@
 import 'package:scriny/src/expressions/evaluation_context.dart';
 import 'package:scriny/src/parser.dart';
+import 'package:scriny/src/renderer/expression.dart';
 
 /// An expression that can be evaluated.
 abstract class Expression {
@@ -11,4 +12,9 @@ abstract class Expression {
 
   /// Evaluates the value of the current expression.
   Object? evaluate(EvaluationContext evaluationContext);
+
+  @override
+  String toString({
+    ExpressionRenderer renderer = const DefaultExpressionRenderer(),
+  }) => renderer.renderExpression(this);
 }

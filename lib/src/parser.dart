@@ -11,7 +11,6 @@ class ScrinyParser {
     NullLiteral.keyword,
     BooleanLiteral.trueKeyword,
     BooleanLiteral.falseKeyword,
-    DeleteStatement.keyword,
     WhileStatement.keyword,
     ReturnStatement.keyword,
     ContinueStatement.keyword,
@@ -19,6 +18,7 @@ class ScrinyParser {
     ForStatement.keyword,
     IfStatement.ifKeyword,
     IfStatement.elseKeyword,
+    DeleteExpression.delete,
   };
 
   /// Checks if an identifier is valid.
@@ -28,7 +28,7 @@ class ScrinyParser {
   static Expression parseExpression(String expression) => _expressionParser.end().parse(expression).value;
 
   /// Parses a list of statements from a string.
-  static List<Statement> parseStatements(String statements) => statementListParser.end().parse(statements).value;
+  static List<Statement> parseStatements(String statements) => _statementListParser.end().parse(statements).value;
 
   /// Parses an expression or a list of statements from a string and evaluates it.
   static Program parseProgram(
@@ -47,7 +47,7 @@ class ScrinyParser {
         evaluationContext: evaluationContext,
       );
     }
-    Result<List<Statement>> parseStatementsResult = statementListParser.end().parse(expressionOrStatement);
+    Result<List<Statement>> parseStatementsResult = _statementListParser.end().parse(expressionOrStatement);
     if (parseStatementsResult is Success) {
       List<Statement> statements = parseStatementsResult.value;
       return Program(
@@ -99,13 +99,13 @@ final Parser<Expression> _expressionParser = () {
   SettableParser<Expression> expression = undefined();
 
   // Literals :
-  Parser<NullLiteral> nullLiteral = string('null').trim().map(
-    (_) => NullLiteral(),
+  Parser<NullLiteral> nullLiteral = string(NullLiteral.keyword).trim().map(
+    (_) => const NullLiteral(),
   );
   Parser<NumberLiteral> numberLiteral = (digit().plus() & (char('.') & digit().plus()).optional()).flatten().trim().map(
     NumberLiteral.parse,
   );
-  Parser<BooleanLiteral> booleanLiteral = [string('true'), string('false')].toChoiceParser().trim().map(
+  Parser<BooleanLiteral> booleanLiteral = [string(BooleanLiteral.trueKeyword), string(BooleanLiteral.falseKeyword)].toChoiceParser().trim().map(
     BooleanLiteral.parse,
   );
   Parser<StringLiteral> stringLiteral = (char('"') & pattern('^"]*').star().flatten() & char('"')).map(
@@ -129,27 +129,12 @@ final Parser<Expression> _expressionParser = () {
     },
   );
 
-  // Function calls :
-  Parser<List<Expression>> functionCall = (char('(').trim() & expression.starSeparated(char(',').trim()).map((list) => list.elements) & char(')').trim()).map((value) => value[1]);
-  builder.primitive(
-    (_identifierLiteral & functionCall).map(
-      (value) => FunctionCallExpression(
-        identifier: (value[0] as IdentifierExpression).identifier,
-        arguments: value[1],
-      ),
-    ),
-  );
-
-  // Access expressions :
-  Parser<Expression> collectionIndex = (char('[').trim() & expression & char(']').trim()).map(
-    (value) => value[1],
-  );
-  builder.primitive(
-    (_identifierLiteral & collectionIndex).map(
-      (value) => CollectionAccessExpression(
-        identifier: (value[0] as IdentifierExpression).identifier,
-        key: value[1],
-      ),
+  // Grouping expressions :
+  builder.group().wrapper(
+    char('(').trim(),
+    char(')').trim(),
+    (_, value, _) => GroupingExpression(
+      operand: value,
     ),
   );
 
@@ -162,22 +147,26 @@ final Parser<Expression> _expressionParser = () {
     ..primitive(listLiteral)
     ..primitive(mapLiteral);
 
-  // Parenthesized expressions :
-  builder.group().wrapper(
-    char('(').trim(),
-    char(')').trim(),
-    (_, value, _) => ParenthesisExpression(
-      expression: value,
+  // Accesses :
+  Parser<_PostfixOperator> postfixOpParser = [
+    (char('[').trim() & expression & char(']').trim()).map(
+      (values) => _IndexOperator(
+        indexExpression: values[1] as Expression,
+      ),
     ),
-  );
+    (char('(').trim() & expression.starSeparated(char(',').trim()).map((list) => list.elements) & char(')').trim()).map(
+      (values) => _CallOperator(
+        arguments: values[1] as List<Expression>,
+      ),
+    ),
+  ].toChoiceParser();
 
-  // Power expressions :
-  builder.group().right(
-    char(PowerExpression.power).trim(),
-    (left, _, right) => PowerExpression(
-      left: left,
-      right: right,
-    ),
+  builder.group().postfix(
+    postfixOpParser,
+    (target, operator) => switch (operator) {
+      _CallOperator() => FunctionCallExpression(callee: target, arguments: operator.arguments),
+      _IndexOperator() => MemberAccessExpression(object: target, member: operator.indexExpression),
+    },
   );
 
   // Unary expressions :
@@ -193,7 +182,22 @@ final Parser<Expression> _expressionParser = () {
       (_, operand) => NotExpression(
         operand: operand,
       ),
+    )
+    ..prefix(
+      string('${DeleteExpression.delete} ').trim(),
+      (_, operand) => DeleteExpression(
+        operand: operand,
+      ),
     );
+
+  // Power expressions :
+  builder.group().right(
+    char(ExponentiationExpression.power).trim(),
+    (left, _, right) => ExponentiationExpression(
+      left: left,
+      right: right,
+    ),
+  );
 
   // Multiplicative expressions :
   builder.group()
@@ -212,8 +216,8 @@ final Parser<Expression> _expressionParser = () {
       ),
     )
     ..left(
-      char(ModulusExpression.modulus).trim(),
-      (left, _, right) => ModulusExpression(
+      char(RemainderExpression.modulus).trim(),
+      (left, _, right) => RemainderExpression(
         left: left,
         right: right,
       ),
@@ -274,41 +278,50 @@ final Parser<Expression> _expressionParser = () {
       ),
     )
     ..left(
-      string(EqualExpression.equal).trim(),
-      (left, _, right) => EqualExpression(
+      string(HasExpression.has).trim(),
+      (left, _, right) => HasExpression(
+        left: left,
+        right: right,
+      ),
+    );
+
+  // Equality expressions :
+  builder.group()
+    ..left(
+      string(EqualityExpression.equal).trim(),
+      (left, _, right) => EqualityExpression(
         left: left,
         right: right,
       ),
     )
     ..left(
-      string(DifferentExpression.different).trim(),
-      (left, _, right) => DifferentExpression(
+      string(InequalityExpression.different).trim(),
+      (left, _, right) => InequalityExpression(
         left: left,
         right: right,
       ),
     );
 
   // Logical expressions :
-  builder.group()
-    ..left(
-      string(AndExpression.and).trim(),
-      (left, _, right) => AndExpression(
-        left: left,
-        right: right,
-      ),
-    )
-    ..left(
-      string(OrExpression.or).trim(),
-      (left, _, right) => OrExpression(
-        left: left,
-        right: right,
-      ),
-    );
-
-  // Has expression :
   builder.group().left(
-    string(HasExpression.has).trim(),
-    (left, _, right) => HasExpression(
+    string(AndExpression.and).trim(),
+    (left, _, right) => AndExpression(
+      left: left,
+      right: right,
+    ),
+  );
+  builder.group().left(
+    string(OrExpression.or).trim(),
+    (left, _, right) => OrExpression(
+      left: left,
+      right: right,
+    ),
+  );
+
+  // Assignment expressions :
+  builder.group().right(
+    char(AssignmentExpression.assign).trim(),
+    (left, _, right) => AssignmentExpression(
       left: left,
       right: right,
     ),
@@ -320,7 +333,7 @@ final Parser<Expression> _expressionParser = () {
 }();
 
 /// A parser for statements.
-final Parser<List<Statement>> statementListParser = () {
+final Parser<List<Statement>> _statementListParser = () {
   // An expression :
   Parser<Expression> expression = _expressionParser;
 
@@ -331,33 +344,6 @@ final Parser<List<Statement>> statementListParser = () {
   Parser<ExpressionStatement> expressionStatement = expression.map(
     (expression) => ExpressionStatement(
       expression: expression,
-    ),
-  );
-
-  // Assign statement :
-  Parser<AssignStatement> assignStatement = (_identifierLiteral & char(AssignStatement.define).trim() & expression).map(
-    (value) => AssignStatement(
-      identifier: (value[0] as IdentifierExpression).identifier,
-      value: value[2],
-    ),
-  );
-
-  // Collection index assign statement :
-  Parser<Expression> collectionIndex = (char('[').trim() & expression & char(']').trim()).map(
-    (value) => value[1],
-  );
-  Parser<CollectionIndexAssignStatement> collectionIndexAssignStatement = (_identifierLiteral & collectionIndex & char(AssignStatement.define).trim() & expression).map(
-    (value) => CollectionIndexAssignStatement(
-      identifier: (value[0] as IdentifierExpression).identifier,
-      index: value[1],
-      value: value[3],
-    ),
-  );
-
-  // Delete statement :
-  Parser<DeleteStatement> deleteStatement = (string(DeleteStatement.keyword).trim() & expression).map(
-    (value) => DeleteStatement(
-      expression: value[1],
     ),
   );
 
@@ -381,9 +367,6 @@ final Parser<List<Statement>> statementListParser = () {
   // Inline statements :
   Parser<Statement> inlineStatement =
       ([
-                assignStatement,
-                collectionIndexAssignStatement,
-                deleteStatement,
                 returnStatement,
                 continueStatement,
                 breakStatement,
@@ -414,7 +397,7 @@ final Parser<List<Statement>> statementListParser = () {
   Parser<ForStatement> forStatement =
       (string(ForStatement.keyword).trim() & char('(').trim() & _identifierLiteral & string('in').trim(whitespace(), whitespace()) & expression & char(')').trim() & block).map(
         (value) => ForStatement(
-          identifier: (value[2] as IdentifierExpression).identifier,
+          identifier: value[2],
           collection: value[4],
           body: value[6],
         ),
@@ -431,3 +414,31 @@ final Parser<List<Statement>> statementListParser = () {
 
   return statement.star();
 }();
+
+/// Represents a postfix operator.
+sealed class _PostfixOperator {
+  /// Creates a postfix operator instance.
+  const _PostfixOperator();
+}
+
+/// Represents an index operator.
+class _IndexOperator extends _PostfixOperator {
+  /// The index expression.
+  final Expression indexExpression;
+
+  /// Creates an index operator instance.
+  const _IndexOperator({
+    required this.indexExpression,
+  });
+}
+
+/// Represents a call operator.
+class _CallOperator extends _PostfixOperator {
+  /// The arguments.
+  final List<Expression> arguments;
+
+  /// Creates a call operator instance.
+  const _CallOperator({
+    required this.arguments,
+  });
+}

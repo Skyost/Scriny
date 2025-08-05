@@ -1,9 +1,9 @@
 import 'package:scriny/src/expressions/binaries/binary.dart';
-import 'package:scriny/src/expressions/binaries/relationals/equal.dart';
+import 'package:scriny/src/expressions/binaries/relationals/group.dart';
 import 'package:scriny/src/expressions/evaluation_context.dart';
 
 /// Represents a superior expression.
-class SuperiorExpression extends BinaryExpression {
+class SuperiorExpression extends BinaryExpression with InRelationalGroup {
   /// The superior symbol.
   static const String superior = '>';
 
@@ -14,9 +14,6 @@ class SuperiorExpression extends BinaryExpression {
   }) : super(
          operator: superior,
        );
-
-  @override
-  int get precedence => EqualExpression.equalPrecedence;
 
   @override
   bool evaluate(EvaluationContext evaluationContext) {

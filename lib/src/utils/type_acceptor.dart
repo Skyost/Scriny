@@ -1,3 +1,5 @@
+import 'package:scriny/src/functions/function.dart';
+
 /// A class that allows to accept an object based on its type.
 sealed class TypeAcceptor {
   /// Creates a new type acceptor instance.
@@ -102,3 +104,10 @@ class NullTypeAcceptor extends TypeAcceptor {
   @override
   bool accept(Object? object) => object == null;
 }
+
+/// Represents a type acceptor that accepts only [EvaluableFunction]s.
+class EvaluableFunctionTypeAcceptor extends _TypedTypeAcceptor<EvaluableFunction> {
+  /// Creates a new evaluable function type acceptor instance.
+  const EvaluableFunctionTypeAcceptor();
+}
+

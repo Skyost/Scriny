@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 
-import 'package:scriny/src/expressions/functions/functions.dart';
+import 'package:scriny/src/functions/functions.dart';
 import 'package:scriny/src/parser.dart';
-import 'package:scriny/src/utils/copy.dart';
 import 'package:scriny/src/utils/type_acceptor.dart';
 
 /// Allows to hold variables and functions for evaluations.
@@ -15,13 +14,14 @@ class EvaluationContext {
     ListTypeAcceptor(),
     MapTypeAcceptor(),
     NullTypeAcceptor(),
+    EvaluableFunctionTypeAcceptor(),
   ];
 
   /// Checks if a variable value can be used.
   static bool isVariableValueValid(Object? value) => _acceptedValuesTypes.any((type) => type.accept(value));
 
-  /// The default variables.
-  static const Map<String, Object?> defaultVariables = {
+  /// The default constants.
+  static const Map<String, Object?> defaultConstants = {
     'e': math.e,
     'pi': math.pi,
   };
@@ -49,22 +49,30 @@ class EvaluationContext {
     RangeFunction(),
   ];
 
-  /// Evaluator variables.
-  final Map<String, Object?> _variables;
-
-  /// Evaluator functions.
-  final Map<String, EvaluableFunction> _functions;
+  /// The top-level values.
+  final Map<String, _Value> _values;
 
   /// Creates a new evaluation context instance.
   EvaluationContext({
-    Map<String, Object?> variables = defaultVariables,
+    Map<String, Object?> constants = defaultConstants,
     List<EvaluableFunction> functions = defaultFunctions,
-  }) : _variables = Map.of(variables),
-       _functions = functions.toMap(),
+  }) : _values = {
+         for (MapEntry<String, Object?> constant in constants.entries)
+           constant.key: _Value(
+             value: constant.value,
+             constant: true,
+           ),
+         for (EvaluableFunction function in functions)
+           if (!constants.containsKey(function.identifier))
+             function.identifier: _Value(
+               value: function,
+               constant: true,
+             ),
+       },
        assert(
          [
-           for (MapEntry<String, Object?> variable in variables.entries)
-             if (!ScrinyParser.isValidIdentifier(variable.key) || !isVariableValueValid(variable.value)) variable.key,
+           for (MapEntry<String, Object?> constant in constants.entries)
+             if (!ScrinyParser.isValidIdentifier(constant.key) || !isVariableValueValid(constant.value)) constant.key,
          ].isEmpty,
          'Invalid identifier or value used in the variables list.',
        ),
@@ -76,67 +84,55 @@ class EvaluationContext {
          'Invalid identifier in functions.',
        );
 
-  /// Returns a variable value.
-  Object? getVariableValue(String identifier) => _copyObject(_variables[identifier]);
+  /// Returns an [identifier] value.
+  Object? getIdentifierValue(String identifier) => _values[identifier]?.value;
 
-  /// Sets a variable value.
-  Object? setVariableValue(String identifier, Object? value) {
+  /// Sets an [identifier] value.
+  Object? setIdentifierValue(String identifier, Object? value, {bool constant = false}) {
     if (!ScrinyParser.isValidIdentifier(identifier)) {
       throw ArgumentError('Invalid identifier : $identifier.');
     }
     if (!isVariableValueValid(value)) {
       throw ArgumentError('Invalid value : $value.');
     }
-    return _variables[identifier] = _copyObject(value);
-  }
-
-  /// Checks if the context has the corresponding variable.
-  bool hasVariable(String identifier) => _variables.containsKey(identifier);
-
-  /// Removes a variable.
-  void removeVariable(String identifier) => _variables.remove(identifier);
-
-  /// Clears all variables.
-  void clearVariables() => _variables.clear();
-
-  /// Returns a function.
-  EvaluableFunction? getFunctionByIdentifier(String identifier) => _functions[identifier];
-
-  /// Declares a new function.
-  void declareFunction(EvaluableFunction function) {
-    if (!ScrinyParser.isValidIdentifier(function.identifier)) {
-      throw ArgumentError('Invalid identifier : ${function.identifier}.');
+    _Value? currentValue = _values[identifier];
+    if (currentValue?.constant == true) {
+      throw ArgumentError('Cannot modify a constant : $identifier.');
     }
-    _functions[function.identifier] = function;
+    _values[identifier] = _Value(
+      value: value,
+      constant: constant,
+    );
+    return currentValue?.value;
   }
 
-  /// Checks if the context has the corresponding function.
-  bool hasFunction(String identifier) => _functions.containsKey(identifier);
+  /// Checks if the context has the corresponding value.
+  bool hasIdentifierValue(String identifier) => _values.containsKey(identifier);
 
-  /// Removes a function.
-  void removeFunction(String identifier) => _functions.remove(identifier);
-
-  /// Clears all functions.
-  void clearFunctions() => _functions.clear();
-
-  /// Copies an object.
-  Object? _copyObject(Object? object) {
-    Object? copy = object;
-    if (copy is List) {
-      copy = copy.copy();
-    } else if (copy is Map) {
-      copy = copy.copy();
-    } else if (copy is Set) {
-      copy = copy.copy();
+  /// Removes an [identifier] value.
+  Object? removeIdentifierValue(String identifier) {
+    _Value? currentValue = _values[identifier];
+    if (currentValue?.constant == true) {
+      throw ArgumentError('Cannot delete a constant : $identifier.');
     }
-    return copy;
+    return _values.remove(identifier)?.value;
   }
+
+  /// Clears all identifiers values.
+  void clearIdentifiersValues() => _values.clear();
 }
 
-/// Allows to create a map from a list of functions.
-extension MapFromEvaluableFunctionList on List<EvaluableFunction> {
-  /// Creates a map from a list of functions.
-  Map<String, EvaluableFunction> toMap() => {
-    for (EvaluableFunction function in this) function.identifier: function,
-  };
+/// A value, held by an [EvaluationContext].
+class _Value<T> {
+  /// The value.
+  T value;
+
+  /// Whether the value is constant.
+  final bool constant;
+
+  /// Creates a new value instance.
+  _Value({
+    required this.value,
+    this.constant = false,
+  });
 }
