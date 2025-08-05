@@ -4,7 +4,7 @@ import 'package:scriny/src/functions/functions.dart';
 import 'package:scriny/src/parser.dart';
 import 'package:scriny/src/utils/type_acceptor.dart';
 
-/// Allows to hold variables and functions for evaluations.
+/// Provides the necessary context for evaluating expressions : variables, constants and functions.
 class EvaluationContext {
   /// The accepted types.
   static const List<TypeAcceptor> _acceptedValuesTypes = [
@@ -49,7 +49,7 @@ class EvaluationContext {
     RangeFunction(),
   ];
 
-  /// The top-level values.
+  /// The current values.
   final Map<String, _Value> _values;
 
   /// Creates a new evaluation context instance.
@@ -125,13 +125,13 @@ class EvaluationContext {
 /// A value, held by an [EvaluationContext].
 class _Value<T> {
   /// The value.
-  T value;
+  final T value;
 
   /// Whether the value is constant.
   final bool constant;
 
   /// Creates a new value instance.
-  _Value({
+  const _Value({
     required this.value,
     this.constant = false,
   });

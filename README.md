@@ -69,7 +69,7 @@ exp(1)
 
 #### Variables
 
-This returns `10` :
+This returns `8` :
 
 ```
 a = 10;
@@ -143,8 +143,12 @@ return list;
 
 #### Custom top-level variables and functions
 
-Adding custom top-level variables and functions to Scriny is straightforward.
-Check out the example on [pub.dev](https://pub.dev/packages/Scriny/example).
+Adding custom top-level constants, variables and functions to Scriny is straightforward.
+All you have to do is to provide a custom `EvaluationContext` to `ScrinyParser.parseProgram`.
+
+Check out the example on [pub.dev](https://pub.dev/packages/Scriny/example), and see the
+[`EvaluationContext`](https://pub.dev/documentation/scriny/latest/scriny/EvaluationContext-class.html)
+class documentation for more information.
 
 ### Interpreter
 
