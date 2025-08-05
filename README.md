@@ -152,7 +152,7 @@ class documentation for more information.
 
 ### Interpreter
 
-Scriny comes with a built-in interpreter! If you have a Scriny script file, you can run it with :
+Scriny comes with a built-in interpreter ! If you have a Scriny script file, you can run it with :
 
 ```bash
 dart run scriny --file=<path>
