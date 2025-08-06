@@ -124,13 +124,7 @@ commit message.
 
 ### Creating a release
 
-There are a few things to think about when doing a release:
-
-- Search through the codebase for `@Deprecated` methods/fields and remove the ones that are marked
-  for removal in the version that you are intending to release.
-- Create a PR containing the changes for removing the deprecated entities.
-- Run `dart run release` and follow the steps.
-- Create a PR containing the updated changelog and `pubspec.yaml` files.
+To create a new release, run `dart run release` and follow the steps.
 
 [GitHub issue]: https://github.com/Skyost/Scriny/issues
 [GitHub issues]: https://github.com/Skyost/Scriny/issues
