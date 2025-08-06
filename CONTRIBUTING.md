@@ -129,18 +129,11 @@ There are a few things to think about when doing a release:
 - Search through the codebase for `@Deprecated` methods/fields and remove the ones that are marked
   for removal in the version that you are intending to release.
 - Create a PR containing the changes for removing the deprecated entities.
-- Run `dart run scriny:version` and follow the steps. Do not foget 
-
-- Go through the PRs with breaking changes and add migration documentation to the changelog.
-  There should be migration docs on each PR, if they haven't been copied to the commit message.
-- Run `melos publish` to make sure that there aren't any problems with any of the packages and make
-  sure that all the versions are correct.
-- Once you are satisfied with the result of the dry run, run `melos publish --no-dry-run`
+- Run `dart run release` and follow the steps.
 - Create a PR containing the updated changelog and `pubspec.yaml` files.
 
 [GitHub issue]: https://github.com/Skyost/Scriny/issues
 [GitHub issues]: https://github.com/Skyost/Scriny/issues
 [PRs]: https://github.com/Skyost/Scriny/pulls
-[Melos]: https://github.com/invertase/melos
 [pubspec doc]: https://dart.dev/tools/pub/pubspec
 [conventional commit]: https://www.conventionalcommits.org
