@@ -63,7 +63,7 @@ exp(1)
 ```
 
 > [!NOTE]
-> You can find all available built-in functions [here](https://github.com/Skyost/Scriny/blob/main/lib/src/expressions/functions/).
+> You can find all available built-in functions [here](https://pub.dev/documentation/scriny/latest/scriny/EvaluableFunction-class.html).
 > We'll see how to add custom functions later.
 
 #### Variables
