@@ -52,7 +52,15 @@ abstract class ExpressionRendererBase with ExpressionRenderer {
   String renderLiteral(Literal literal) {
     Object? value = literal.value;
     if (value is List) {
-      return renderString('[') + value.map(renderLiteralValue).join(', ') + renderString(']');
+      String result = renderString('[');
+      for (int i = 0; i < value.length; i++) {
+        result += renderLiteralValue(value[i]);
+        if (i < value.length - 1) {
+          result += renderString(', ');
+        }
+      }
+      result += renderString(']');
+      return result;
     }
     if (value is Map) {
       String result = renderString('{');
@@ -71,9 +79,9 @@ abstract class ExpressionRendererBase with ExpressionRenderer {
   /// Renders a literal value.
   String renderLiteralValue(Object? value) {
     if (value is String) {
-      return renderString('"') + value + renderString('"');
+      return renderString('"') + renderString(value) + renderString('"');
     }
-    return value.toString();
+    return renderString(value.toString());
   }
 
   /// Renders a function call.
