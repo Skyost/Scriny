@@ -1,5 +1,10 @@
 # 📰 Scriny changelog
 
+## v0.3.1
+Released on September 2, 2025.
+
+* **FIX**: Now correctly rendering literals. ([#8c902af](https://github.com/Skyost/Scriny/commit/8c902af))
+
 ## v0.3.0
 Released on August 5, 2025.
 
