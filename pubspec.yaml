@@ -11,7 +11,7 @@ executables:
   scriny:
 
 environment:
-  sdk: ^3.8.1
+  sdk: ^3.9.0
 
 dependencies:
   petitparser: '>=6.1.0 <=7.0.0'

@@ -10,4 +10,4 @@ void main() {
       expect(() => ScrinyParser.parseExpression('7 % "a"').evaluate(EvaluationContext()), throwsArgumentError);
     });
   });
-} 
+}

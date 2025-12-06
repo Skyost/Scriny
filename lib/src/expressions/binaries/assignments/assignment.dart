@@ -14,7 +14,7 @@ class AssignmentExpression extends BinaryExpression with InAssignmentGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: assign,
+         symbol: assign,
        );
 
   @override

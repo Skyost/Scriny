@@ -216,6 +216,17 @@ void main() {
       });
     });
 
+    group('render ternary', () {
+      test('renders conditional expression', () {
+        ConditionalExpression expression = const ConditionalExpression(
+          first: BooleanLiteral(value: true),
+          second: NumberLiteral(value: 1),
+          third: NumberLiteral(value: 2),
+        );
+        expect(renderer.renderTernary(expression), equals('true ? 1 : 2'));
+      });
+    });
+
     group('render complex expressions', () {
       test('renders complex nested expression', () {
         AdditionExpression expression = const AdditionExpression(

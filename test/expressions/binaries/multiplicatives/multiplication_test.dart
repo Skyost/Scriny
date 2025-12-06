@@ -10,4 +10,4 @@ void main() {
       expect(() => ScrinyParser.parseExpression('2 * "a"').evaluate(EvaluationContext()), throwsArgumentError);
     });
   });
-} 
+}

@@ -10,4 +10,4 @@ return 1 + 2;
       expect(program.run(), 3);
     });
   });
-} 
+}

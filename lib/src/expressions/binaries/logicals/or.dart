@@ -12,7 +12,7 @@ class OrExpression extends BinaryExpression with InLogicalGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: or,
+         symbol: or,
        );
 
   @override

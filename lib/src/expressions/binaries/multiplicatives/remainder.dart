@@ -12,7 +12,7 @@ class RemainderExpression extends BinaryExpression with InMultiplicativeGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: modulus,
+         symbol: modulus,
        );
 
   @override

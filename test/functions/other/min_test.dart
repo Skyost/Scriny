@@ -12,4 +12,4 @@ void main() {
       expect(() => expression.evaluate(EvaluationContext()), throwsA(isA<FunctionArgumentTypeException>()));
     });
   });
-} 
+}

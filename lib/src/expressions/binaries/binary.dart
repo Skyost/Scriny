@@ -5,8 +5,8 @@ abstract class BinaryExpression extends Expression {
   /// The left operand.
   final Expression left;
 
-  /// The operator.
-  final String operator;
+  /// The symbol.
+  final String symbol;
 
   /// The right operand.
   final Expression right;
@@ -14,7 +14,7 @@ abstract class BinaryExpression extends Expression {
   /// Creates a new binary expression instance.
   const BinaryExpression({
     required this.left,
-    required this.operator,
+    required this.symbol,
     required this.right,
   });
 
@@ -23,9 +23,9 @@ abstract class BinaryExpression extends Expression {
     if (other is! BinaryExpression) {
       return super == other;
     }
-    return identical(this, other) || (left == other.left && operator == other.operator && right == other.right);
+    return identical(this, other) || (left == other.left && symbol == other.symbol && right == other.right);
   }
 
   @override
-  int get hashCode => Object.hash(left, operator, right);
+  int get hashCode => Object.hash(left, symbol, right);
 }

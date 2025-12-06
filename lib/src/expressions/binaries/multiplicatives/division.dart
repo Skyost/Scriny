@@ -12,7 +12,7 @@ class DivisionExpression extends BinaryExpression with InMultiplicativeGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: divide,
+         symbol: divide,
        );
 
   @override

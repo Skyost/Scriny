@@ -14,7 +14,7 @@ class EqualityExpression extends BinaryExpression with InEqualityGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: equal,
+         symbol: equal,
        );
 
   @override

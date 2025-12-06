@@ -110,4 +110,3 @@ class EvaluableFunctionTypeAcceptor extends _TypedTypeAcceptor<EvaluableFunction
   /// Creates a new evaluable function type acceptor instance.
   const EvaluableFunctionTypeAcceptor();
 }
-

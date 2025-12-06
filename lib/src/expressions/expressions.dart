@@ -5,4 +5,5 @@ export 'expression.dart';
 export 'grouping.dart';
 export 'identifier.dart';
 export 'literals/literals.dart';
+export 'ternaries/ternaries.dart';
 export 'unaries/unaries.dart';

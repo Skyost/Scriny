@@ -12,7 +12,7 @@ class SubtractionExpression extends BinaryExpression with InAdditiveGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: minus,
+         symbol: minus,
        );
 
   @override

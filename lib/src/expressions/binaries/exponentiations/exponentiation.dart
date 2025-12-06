@@ -14,7 +14,7 @@ class ExponentiationExpression extends BinaryExpression with InExponentiationGro
     required super.left,
     required super.right,
   }) : super(
-         operator: power,
+         symbol: power,
        );
 
   @override

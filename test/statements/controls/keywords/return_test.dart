@@ -17,4 +17,4 @@ return 2;''');
       expect(program.run(), null);
     });
   });
-} 
+}

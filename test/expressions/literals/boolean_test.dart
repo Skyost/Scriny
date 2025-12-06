@@ -25,4 +25,4 @@ void main() {
       expect(const BooleanLiteral(value: true), isNot(const BooleanLiteral(value: false)));
     });
   });
-} 
+}

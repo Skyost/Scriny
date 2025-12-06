@@ -12,4 +12,4 @@ return x;''');
       expect(program.run(), 3);
     });
   });
-} 
+}

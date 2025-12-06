@@ -12,6 +12,9 @@ class ForStatement extends Statement {
   /// The for keyword.
   static const String keyword = 'for';
 
+  /// The identifier separator.
+  static const String identifierSeparator = 'in';
+
   /// The counter identifier.
   final IdentifierExpression identifier;
 

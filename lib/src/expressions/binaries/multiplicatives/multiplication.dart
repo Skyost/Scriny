@@ -12,7 +12,7 @@ class MultiplicationExpression extends BinaryExpression with InMultiplicativeGro
     required super.left,
     required super.right,
   }) : super(
-         operator: times,
+         symbol: times,
        );
 
   @override

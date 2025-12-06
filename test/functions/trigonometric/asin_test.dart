@@ -7,7 +7,7 @@ void main() {
   group('ASinFunction', () {
     test('calculates arcsine', () {
       Expression expression = ScrinyParser.parseExpression('asin(1)');
-      expect(expression.evaluate(EvaluationContext()), closeTo(math.pi/2, 1e-10));
+      expect(expression.evaluate(EvaluationContext()), closeTo(math.pi / 2, 1e-10));
     });
     test('throws on wrong argument type', () {
       Expression expression = ScrinyParser.parseExpression('asin("a")');
@@ -22,4 +22,4 @@ void main() {
       expect(() => expression.evaluate(EvaluationContext()), throwsA(isA<WrongArgumentCountException>()));
     });
   });
-} 
+}

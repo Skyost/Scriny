@@ -12,7 +12,7 @@ class InferiorOrEqualExpression extends BinaryExpression with InRelationalGroup 
     required super.left,
     required super.right,
   }) : super(
-         operator: inferiorOrEqual,
+         symbol: inferiorOrEqual,
        );
 
   @override

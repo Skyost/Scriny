@@ -100,8 +100,12 @@ abstract class ExpressionRendererBase with ExpressionRenderer {
   /// Renders a member access.
   String renderMemberAccess(MemberAccessExpression expression) => renderExpression(expression.object) + renderString('[') + renderExpression(expression.member) + renderString(']');
 
+  /// Renders a ternary expression.
+  String renderTernary(TernaryExpression expression) =>
+      renderExpression(expression.first) + renderString(' ${expression.firstSymbol} ') + renderExpression(expression.second) + renderString(' ${expression.secondSymbol} ') + renderExpression(expression.third);
+
   /// Renders a binary expression.
-  String renderBinary(BinaryExpression expression) => renderExpression(expression.left) + renderString(' ${expression.operator} ') + renderExpression(expression.right);
+  String renderBinary(BinaryExpression expression) => renderExpression(expression.left) + renderString(' ${expression.symbol} ') + renderExpression(expression.right);
 
   /// Renders a unary expression.
   String renderUnary(UnaryExpression expression) {
@@ -139,7 +143,7 @@ mixin AssociativityAware on ExpressionRendererBase {
       result += renderString(')');
     }
 
-    result += renderString(' ${expression.operator} ');
+    result += renderString(' ${expression.symbol} ');
 
     bool shouldParenthesizeRight = shouldParenthesize(expression: expression, isLeft: false);
     if (shouldParenthesizeRight) {
@@ -207,6 +211,9 @@ enum ExpressionPrecedence {
   /// The precedence of an assignment expression.
   assignment,
 
+  /// The precedence of a ternary expression.
+  ternary,
+
   /// The precedence of an or expression.
   or,
 
@@ -241,6 +248,9 @@ enum ExpressionPrecedence {
   static ExpressionPrecedence? of(Expression expression) {
     if (expression is AssignmentExpression) {
       return assignment;
+    }
+    if (expression is TernaryExpression) {
+      return ternary;
     }
     if (expression is OrExpression) {
       return or;
@@ -290,12 +300,7 @@ class DefaultExpressionRenderer extends ExpressionRendererBase with Associativit
   @override
   @protected
   bool isLeftAssociative(BinaryExpression expression) =>
-      expression is MemberAccessExpression ||
-      expression is InMultiplicativeGroup ||
-      expression is InAdditiveGroup ||
-      expression is InRelationalGroup ||
-      expression is InEqualityGroup ||
-      expression is InLogicalGroup;
+      expression is MemberAccessExpression || expression is InMultiplicativeGroup || expression is InAdditiveGroup || expression is InRelationalGroup || expression is InEqualityGroup || expression is InLogicalGroup;
 
   @override
   @protected
@@ -313,6 +318,5 @@ class MathematicalExpressionRenderer extends ExpressionRendererBase with Associa
 
   @override
   @protected
-  bool isRightAssociative(BinaryExpression expression) =>
-      expression is AdditionExpression || expression is MultiplicationExpression || expression is AndExpression || expression is OrExpression || expression is InExponentiationGroup;
+  bool isRightAssociative(BinaryExpression expression) => expression is AdditionExpression || expression is MultiplicationExpression || expression is AndExpression || expression is OrExpression || expression is InExponentiationGroup;
 }

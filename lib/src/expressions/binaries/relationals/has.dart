@@ -12,7 +12,7 @@ class HasExpression extends BinaryExpression with InRelationalGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: has,
+         symbol: has,
        );
 
   @override

@@ -12,7 +12,7 @@ class AndExpression extends BinaryExpression with InLogicalGroup {
     required super.left,
     required super.right,
   }) : super(
-         operator: and,
+         symbol: and,
        );
 
   @override

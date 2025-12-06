@@ -15,4 +15,4 @@ void main() {
       expect(() => ScrinyParser.parseExpression('-"a"').evaluate(EvaluationContext()), throwsArgumentError);
     });
   });
-} 
+}

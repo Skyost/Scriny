@@ -16,6 +16,7 @@ class ScrinyParser {
     ContinueStatement.keyword,
     BreakStatement.keyword,
     ForStatement.keyword,
+    ForStatement.identifierSeparator,
     IfStatement.ifKeyword,
     IfStatement.elseKeyword,
     DeleteExpression.delete,
@@ -108,7 +109,7 @@ final Parser<Expression> _expressionParser = () {
   Parser<BooleanLiteral> booleanLiteral = [string(BooleanLiteral.trueKeyword), string(BooleanLiteral.falseKeyword)].toChoiceParser().trim().map(
     BooleanLiteral.parse,
   );
-  Parser<StringLiteral> stringLiteral = (char('"') & pattern('^"]*').star().flatten() & char('"')).map(
+  Parser<StringLiteral> stringLiteral = (char('"') & pattern('^"]*').star().flatten() & char('"')).trim().map(
     (value) => StringLiteral(
       value: value[1],
     ),
@@ -184,7 +185,7 @@ final Parser<Expression> _expressionParser = () {
       ),
     )
     ..prefix(
-      string('${DeleteExpression.delete} ').trim(),
+      string(DeleteExpression.delete).trim(),
       (_, operand) => DeleteExpression(
         operand: operand,
       ),
@@ -318,6 +319,16 @@ final Parser<Expression> _expressionParser = () {
     ),
   );
 
+  // Conditional expressions :
+  builder.group().right(
+    (char(ConditionalExpression.conditionSeparator).trim() & expression & char(ConditionalExpression.expressionsSeparator).trim()).map((values) => values[1] as Expression),
+    (first, second, third) => ConditionalExpression(
+      first: first,
+      second: second,
+      third: third,
+    ),
+  );
+
   // Assignment expressions :
   builder.group().right(
     char(AssignmentExpression.assign).trim(),
@@ -394,14 +405,13 @@ final Parser<List<Statement>> _statementListParser = () {
       body: value[4],
     ),
   );
-  Parser<ForStatement> forStatement =
-      (string(ForStatement.keyword).trim() & char('(').trim() & _identifierLiteral & string('in').trim(whitespace(), whitespace()) & expression & char(')').trim() & block).map(
-        (value) => ForStatement(
-          identifier: value[2],
-          collection: value[4],
-          body: value[6],
-        ),
-      );
+  Parser<ForStatement> forStatement = (string(ForStatement.keyword).trim() & char('(').trim() & _identifierLiteral & string(ForStatement.identifierSeparator).trim(whitespace(), whitespace()) & expression & char(')').trim() & block).map(
+    (value) => ForStatement(
+      identifier: value[2],
+      collection: value[4],
+      body: value[6],
+    ),
+  );
 
   statement.set(
     [

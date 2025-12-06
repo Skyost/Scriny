@@ -15,7 +15,7 @@ list = list + [1, 2, 3];
 delete list[0];
 list[1] = 4;
 return list;''');
-      expect(program.run(), [2,4]);
+      expect(program.run(), [2, 4]);
     });
   });
 }

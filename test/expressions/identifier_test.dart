@@ -9,4 +9,4 @@ void main() {
       expect(expression.evaluate(evaluationContext), 42);
     });
   });
-} 
+}

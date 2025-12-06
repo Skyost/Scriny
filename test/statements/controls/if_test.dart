@@ -20,4 +20,4 @@ void main() {
       expect(program.run(), 2);
     });
   });
-} 
+}

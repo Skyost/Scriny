@@ -12,7 +12,7 @@ class SuperiorOrEqualExpression extends BinaryExpression with InRelationalGroup 
     required super.left,
     required super.right,
   }) : super(
-         operator: superiorOrEqual,
+         symbol: superiorOrEqual,
        );
 
   @override

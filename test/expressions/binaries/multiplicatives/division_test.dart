@@ -10,4 +10,4 @@ void main() {
       expect(() => ScrinyParser.parseExpression('6 / "a"').evaluate(EvaluationContext()), throwsArgumentError);
     });
   });
-} 
+}

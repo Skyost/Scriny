@@ -12,7 +12,7 @@ class IntegerDivisionExpression extends BinaryExpression with InMultiplicativeGr
     required super.left,
     required super.right,
   }) : super(
-         operator: quotient,
+         symbol: quotient,
        );
 
   @override

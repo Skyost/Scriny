@@ -15,4 +15,4 @@ return sum;''');
       expect(program.run(), 4);
     });
   });
-} 
+}
