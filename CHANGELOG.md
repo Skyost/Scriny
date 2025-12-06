@@ -1,5 +1,11 @@
 # 📰 Scriny changelog
 
+## v0.4.0
+Released on December 6, 2025.
+
+* **BREAKING FEAT**: Added a ternary conditional operator. ([#cd11f70](https://github.com/Skyost/Scriny/commit/cd11f70))
+* **FEAT**: Added support for rendering ternary expressions. ([#9fb04c4](https://github.com/Skyost/Scriny/commit/9fb04c4))
+
 ## v0.3.1
 Released on September 2, 2025.
 
