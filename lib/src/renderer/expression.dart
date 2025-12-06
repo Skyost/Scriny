@@ -33,12 +33,16 @@ abstract class ExpressionRendererBase with ExpressionRenderer {
     if (expression is MemberAccessExpression) {
       return renderMemberAccess(expression);
     }
+    if (expression is TernaryExpression) {
+      return renderTernary(expression);
+    }
     if (expression is BinaryExpression) {
       return renderBinary(expression);
     }
     if (expression is UnaryExpression) {
       return renderUnary(expression);
     }
+
     return renderString(expression.toString());
   }
 
