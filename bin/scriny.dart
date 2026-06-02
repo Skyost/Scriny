@@ -13,10 +13,18 @@ void main(List<String> args) {
     valueHelp: 'path',
   );
   parser.addOption(
-    'string',
-    abbr: 's',
-    help: 'Parses the provided content and executes it.',
-    valueHelp: 'string',
+    'code',
+    abbr: 'c',
+    help: 'Parses the provided code and executes it.',
+    valueHelp: 'code',
+    aliases: ['string'],
+  );
+  parser.addFlag(
+    'verbose',
+    abbr: 'v',
+    help: 'Prints stack traces when an error occurs.',
+    defaultsTo: false,
+    negatable: false,
   );
   parser.addFlag(
     'print-return',
@@ -36,7 +44,7 @@ void main(List<String> args) {
     return;
   }
 
-  String? content = results.option('string');
+  String? content = results.option('code') ?? results.option('string');
   if (results.option('file') != null) {
     File file = File(results.option('file')!);
     if (file.existsSync()) {
@@ -65,7 +73,9 @@ void main(List<String> args) {
   } catch (ex, stacktrace) {
     stderr.writeln('An error occurred !');
     stderr.writeln(ex);
-    stderr.writeln(stacktrace);
+    if (results.flag('verbose')) {
+      stderr.writeln(stacktrace);
+    }
     exitCode = -2;
   }
 }
