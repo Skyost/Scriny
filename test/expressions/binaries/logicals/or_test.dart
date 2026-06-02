@@ -14,7 +14,7 @@ void main() {
     });
     test('throws on non-boolean or', () {
       expect(() => ScrinyParser.parseExpression('1 || true').evaluate(EvaluationContext()), throwsArgumentError);
-      expect(() => ScrinyParser.parseExpression('true || 1').evaluate(EvaluationContext()), throwsArgumentError);
+      expect(() => ScrinyParser.parseExpression('false || 1').evaluate(EvaluationContext()), throwsArgumentError);
     });
   });
   group('or evaluation', () {
@@ -27,6 +27,12 @@ void main() {
     test('evaluates true || true', () {
       expect(
         ScrinyParser.tryParseProgram('true || true')?.run(),
+        true,
+      );
+    });
+    test('does not evaluate right operand when left operand is true', () {
+      expect(
+        ScrinyParser.tryParseProgram('true || unknown')?.run(),
         true,
       );
     });

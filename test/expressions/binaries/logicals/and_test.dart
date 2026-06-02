@@ -30,5 +30,11 @@ void main() {
         true,
       );
     });
+    test('does not evaluate right operand when left operand is false', () {
+      expect(
+        ScrinyParser.tryParseProgram('false && unknown')?.run(),
+        false,
+      );
+    });
   });
 }

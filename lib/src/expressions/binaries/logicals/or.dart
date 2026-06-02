@@ -18,8 +18,14 @@ class OrExpression extends BinaryExpression with InLogicalGroup {
   @override
   bool evaluate(EvaluationContext evaluationContext) {
     Object? leftValue = left.evaluate(evaluationContext);
+    if (leftValue is! bool) {
+      throw ArgumentError('Cannot use $or on non-boolean values.');
+    }
+    if (leftValue) {
+      return true;
+    }
     Object? rightValue = right.evaluate(evaluationContext);
-    if (leftValue is! bool || rightValue is! bool) {
+    if (rightValue is! bool) {
       throw ArgumentError('Cannot use $or on non-boolean values.');
     }
     return leftValue || rightValue;

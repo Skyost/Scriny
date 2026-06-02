@@ -18,8 +18,14 @@ class AndExpression extends BinaryExpression with InLogicalGroup {
   @override
   bool evaluate(EvaluationContext evaluationContext) {
     Object? leftValue = left.evaluate(evaluationContext);
+    if (leftValue is! bool) {
+      throw ArgumentError('Cannot use $and on non-boolean values.');
+    }
+    if (!leftValue) {
+      return false;
+    }
     Object? rightValue = right.evaluate(evaluationContext);
-    if (leftValue is! bool || rightValue is! bool) {
+    if (rightValue is! bool) {
       throw ArgumentError('Cannot use $and on non-boolean values.');
     }
     return leftValue && rightValue;
