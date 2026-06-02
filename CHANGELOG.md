@@ -1,5 +1,13 @@
 # 📰 Scriny changelog
 
+## v0.4.1
+Released on June 2, 2026.
+
+* **FEAT**: Added `verbose` flag and renamed `string` option to `code`. ([#77f2ad6](https://github.com/Skyost/Scriny/commit/77f2ad6))
+* **FEAT**: Implemented short-circuit evaluation for logical AND and OR operators. ([#5d2c3f3](https://github.com/Skyost/Scriny/commit/5d2c3f3))
+* **CHORE**: Update SDK and dependency constraints. ([#ba9bfda](https://github.com/Skyost/Scriny/commit/ba9bfda))
+* **REFACTOR**: Added `ScrinyParseException` and improved parser error reporting. ([#7d14d1c](https://github.com/Skyost/Scriny/commit/7d14d1c))
+
 ## v0.4.0
 Released on December 6, 2025.
 
