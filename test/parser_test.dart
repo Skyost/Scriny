@@ -18,11 +18,18 @@ void main() {
       expect(program, isNull);
     });
 
+    test('parseProgram throws ScrinyParseException on invalid input', () {
+      expect(
+        () => ScrinyParser.parseProgram('invalid!'),
+        throwsA(isA<ScrinyParseException>()),
+      );
+    });
+
     test('parseExpression rejects reserved keywords as identifiers', () {
       for (String keyword in ScrinyParser.reservedKeywords) {
         expect(
           () => ScrinyParser.parseExpression('$keyword = 0;'),
-          throwsA(isA<Exception>()),
+          throwsA(isA<ScrinyParseException>()),
           reason: 'Should not allow reserved keyword "$keyword" as identifier',
         );
       }

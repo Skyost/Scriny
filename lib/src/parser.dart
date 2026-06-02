@@ -1,4 +1,5 @@
 import 'package:petitparser/petitparser.dart';
+import 'package:scriny/src/exceptions/exceptions.dart';
 import 'package:scriny/src/expressions/expressions.dart';
 import 'package:scriny/src/program.dart';
 import 'package:scriny/src/statements/statements.dart';
@@ -26,10 +27,16 @@ class ScrinyParser {
   static bool isValidIdentifier(String identifier) => _identifierLiteral.accept(identifier);
 
   /// Parses an expression from a string.
-  static Expression parseExpression(String expression) => _expressionParser.end().parse(expression).value;
+  static Expression parseExpression(String expression) => _parse(
+    parser: _expressionParser.end(),
+    source: expression,
+  );
 
   /// Parses a list of statements from a string.
-  static List<Statement> parseStatements(String statements) => _statementListParser.end().parse(statements).value;
+  static List<Statement> parseStatements(String statements) => _parse(
+    parser: _statementListParser.end(),
+    source: statements,
+  );
 
   /// Parses an expression or a list of statements from a string and evaluates it.
   static Program parseProgram(
@@ -56,8 +63,11 @@ class ScrinyParser {
         evaluationContext: evaluationContext,
       );
     }
-    throw Exception(
-      'Invalid expression or statement provided.\n---\nExpression parse result is :\n$parseExpressionResult\n---\nProgram parse result is :\n$parseStatementsResult',
+    Failure expressionFailure = parseExpressionResult as Failure;
+    Failure statementsFailure = parseStatementsResult as Failure;
+    throw ScrinyParseException(
+      source: expressionOrStatement,
+      failure: expressionFailure.position >= statementsFailure.position ? expressionFailure : statementsFailure,
     );
   }
 
@@ -65,6 +75,7 @@ class ScrinyParser {
   static Program? tryParseProgram(
     String expressionOrStatement, {
     EvaluationContext? evaluationContext,
+    bool printErrors = false,
   }) {
     try {
       return parseProgram(
@@ -72,9 +83,26 @@ class ScrinyParser {
         evaluationContext: evaluationContext,
       );
     } catch (ex, stacktrace) {
-      printException(ex, stacktrace);
+      if (printErrors) {
+        printException(ex, stacktrace);
+      }
       return null;
     }
+  }
+
+  /// Parses [source] using [parser], throwing a Scriny exception on failure.
+  static T _parse<T>({
+    required Parser<T> parser,
+    required String source,
+  }) {
+    Result<T> result = parser.parse(source);
+    if (result is Success<T>) {
+      return result.value;
+    }
+    throw ScrinyParseException(
+      source: source,
+      failure: result as Failure,
+    );
   }
 }
 
