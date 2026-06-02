@@ -20,7 +20,7 @@ dependencies:
 
 dev_dependencies:
   test: any
-  flutter_lints: ^6.0.0
+  lints: ^6.1.0
   release: ^0.1.8
 
 release:
